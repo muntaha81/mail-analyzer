@@ -1,0 +1,44 @@
+﻿@model MailAnalyzer.Models.DBFirst.Analytic
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Analytic</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Expert.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Expert.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Domain.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Domain.Name)
+        </dd>
+        <dt>
+            <span>Score</span>
+        </dt>
+        <dd>
+            @ScoreMessage(Model.Domain.Name)
+        </dd>
+    </dl>
+</div>
+
+@functions {
+    string ScoreMessage(string domainName)
+    {
+
+        var msg = "Your Score in" + domainName + ":";
+        return msg;
+    }
+}

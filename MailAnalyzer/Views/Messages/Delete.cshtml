@@ -1,0 +1,80 @@
+﻿@model MailAnalyzer.Models.DBFirst.Message
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Message</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MailFrom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MailFrom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SenderName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SenderName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MailTo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MailTo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReceiptName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReceiptName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Subject)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Subject)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Body)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Body)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MsgDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MsgDate)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

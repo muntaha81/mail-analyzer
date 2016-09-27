@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Analytics">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ExpertId" Type="int" Nullable="false" />
+          <Property Name="DomainId" Type="int" Nullable="false" />
+          <Property Name="Keyword" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="NumberOfOccurrence" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Domains">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Experts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="MailAddress" Type="nvarchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Messages">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MailFrom" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="SenderName" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="MailTo" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="ReceiptName" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Subject" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Body" Type="nvarchar(max)" />
+          <Property Name="MsgDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SubDomains">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" />
+          <Property Name="DomainId" Type="int" />
+        </EntityType>
+        <Association Name="FK_Analytics_Experts">
+          <End Role="Experts" Type="Self.Experts" Multiplicity="1" />
+          <End Role="Analytics" Type="Self.Analytics" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Experts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Analytics">
+              <PropertyRef Name="ExpertId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Analytics_Tags">
+          <End Role="Domains" Type="Self.Domains" Multiplicity="1" />
+          <End Role="Analytics" Type="Self.Analytics" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Domains">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Analytics">
+              <PropertyRef Name="DomainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Skills_Tags">
+          <End Role="Domains" Type="Self.Domains" Multiplicity="0..1" />
+          <End Role="SubDomains" Type="Self.SubDomains" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Domains">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SubDomains">
+              <PropertyRef Name="DomainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Analytics" EntityType="Self.Analytics" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Domains" EntityType="Self.Domains" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Experts" EntityType="Self.Experts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Messages" EntityType="Self.Messages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubDomains" EntityType="Self.SubDomains" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Analytics_Experts" Association="Self.FK_Analytics_Experts">
+            <End Role="Experts" EntitySet="Experts" />
+            <End Role="Analytics" EntitySet="Analytics" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Analytics_Tags" Association="Self.FK_Analytics_Tags">
+            <End Role="Domains" EntitySet="Domains" />
+            <End Role="Analytics" EntitySet="Analytics" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Skills_Tags" Association="Self.FK_Skills_Tags">
+            <End Role="Domains" EntitySet="Domains" />
+            <End Role="SubDomains" EntitySet="SubDomains" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Domains" EntityType="Model.Domain" />
+          <EntitySet Name="Experts" EntityType="Model.Expert" />
+          <EntitySet Name="Messages" EntityType="Model.Message" />
+          <EntitySet Name="SubDomains" EntityType="Model.SubDomain" />
+          <AssociationSet Name="FK_Skills_Tags" Association="Model.FK_Skills_Tags">
+            <End Role="Domain" EntitySet="Domains" />
+            <End Role="SubDomain" EntitySet="SubDomains" />
+          </AssociationSet>
+          <EntitySet Name="Analytics" EntityType="Model.Analytic" />
+          <AssociationSet Name="FK_Analytics_Experts" Association="Model.FK_Analytics_Experts">
+            <End Role="Expert" EntitySet="Experts" />
+            <End Role="Analytic" EntitySet="Analytics" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Analytics_Tags" Association="Model.FK_Analytics_Tags">
+            <End Role="Domain" EntitySet="Domains" />
+            <End Role="Analytic" EntitySet="Analytics" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Domain">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SubDomains" Relationship="Model.FK_Skills_Tags" FromRole="Domain" ToRole="SubDomain" />
+          <NavigationProperty Name="Analytics" Relationship="Model.FK_Analytics_Tags" FromRole="Domain" ToRole="Analytic" />
+        </EntityType>
+        <EntityType Name="Expert">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="MailAddress" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Analytics" Relationship="Model.FK_Analytics_Experts" FromRole="Expert" ToRole="Analytic" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MailFrom" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="SenderName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="MailTo" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ReceiptName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Subject" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Body" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MsgDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="SubDomain">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="DomainId" Type="Int32" />
+          <NavigationProperty Name="Domain" Relationship="Model.FK_Skills_Tags" FromRole="SubDomain" ToRole="Domain" />
+        </EntityType>
+        <Association Name="FK_Skills_Tags">
+          <End Type="Model.Domain" Role="Domain" Multiplicity="0..1" />
+          <End Type="Model.SubDomain" Role="SubDomain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Domain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SubDomain">
+              <PropertyRef Name="DomainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Analytic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ExpertId" Type="Int32" Nullable="false" />
+          <Property Name="DomainId" Type="Int32" Nullable="false" />
+          <Property Name="Keyword" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="NumberOfOccurrence" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Expert" Relationship="Model.FK_Analytics_Experts" FromRole="Analytic" ToRole="Expert" />
+          <NavigationProperty Name="Domain" Relationship="Model.FK_Analytics_Tags" FromRole="Analytic" ToRole="Domain" />
+        </EntityType>
+        <Association Name="FK_Analytics_Experts">
+          <End Type="Model.Expert" Role="Expert" Multiplicity="1" />
+          <End Type="Model.Analytic" Role="Analytic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Expert">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Analytic">
+              <PropertyRef Name="ExpertId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Analytics_Tags">
+          <End Type="Model.Domain" Role="Domain" Multiplicity="1" />
+          <End Type="Model.Analytic" Role="Analytic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Domain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Analytic">
+              <PropertyRef Name="DomainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Domains">
+            <EntityTypeMapping TypeName="Model.Domain">
+              <MappingFragment StoreEntitySet="Domains">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Experts">
+            <EntityTypeMapping TypeName="Model.Expert">
+              <MappingFragment StoreEntitySet="Experts">
+                <ScalarProperty Name="MailAddress" ColumnName="MailAddress" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Messages">
+            <EntityTypeMapping TypeName="Model.Message">
+              <MappingFragment StoreEntitySet="Messages">
+                <ScalarProperty Name="MsgDate" ColumnName="MsgDate" />
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="ReceiptName" ColumnName="ReceiptName" />
+                <ScalarProperty Name="MailTo" ColumnName="MailTo" />
+                <ScalarProperty Name="SenderName" ColumnName="SenderName" />
+                <ScalarProperty Name="MailFrom" ColumnName="MailFrom" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubDomains">
+            <EntityTypeMapping TypeName="Model.SubDomain">
+              <MappingFragment StoreEntitySet="SubDomains">
+                <ScalarProperty Name="DomainId" ColumnName="DomainId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Analytics">
+            <EntityTypeMapping TypeName="Model.Analytic">
+              <MappingFragment StoreEntitySet="Analytics">
+                <ScalarProperty Name="NumberOfOccurrence" ColumnName="NumberOfOccurrence" />
+                <ScalarProperty Name="Keyword" ColumnName="Keyword" />
+                <ScalarProperty Name="DomainId" ColumnName="DomainId" />
+                <ScalarProperty Name="ExpertId" ColumnName="ExpertId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

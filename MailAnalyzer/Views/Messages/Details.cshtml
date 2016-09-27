@@ -1,0 +1,74 @@
+﻿@model MailAnalyzer.Models.DBFirst.Message
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Message</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MailFrom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MailFrom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SenderName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SenderName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MailTo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MailTo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReceiptName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReceiptName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Subject)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Subject)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Body)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Body)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MsgDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MsgDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,48 @@
+﻿@model MailAnalyzer.Models.DBFirst.Analytic
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Analytic</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Keyword)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Keyword)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Message.MailFrom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Message.MailFrom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Domain.code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Domain.code)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
